@@ -1,9 +1,9 @@
 import json
 
-# def read_json(filename):
-#     with open(filename, encoding='utf-8') as file:
-#         return json.load(file)
-from pprint import pprint
+
+def read_json(filename):
+    with open(filename, encoding='utf-8') as file:
+        return json.load(file)
 
 
 def load_data():
@@ -33,8 +33,8 @@ def attach_comments_to_posts(posts, comments):
 
 
 def get_post_by_id(postid):
-    with open("data/data.json", "r", encoding='utf-8') as f:
-        data = json.load(f)
+    # функция для поиска поста по ID
+    data = read_json('data/data.json')
 
     for post in data:
         if post.get("pk") == postid:
@@ -42,11 +42,33 @@ def get_post_by_id(postid):
 
 
 def get_comments_by_postid(postid):
-    with open("data/comments.json", "r", encoding='utf-8') as f:
-        comments = json.load(f)
+    # Получаем комментарии для конкретного поста
+    comments = read_json('data/comments.json')
+
     post_comments = []
     for comment in comments:
         if comment.get("post_id") == postid:
             post_comments.append(comment)
             return post_comments
-# print(get_comments_by_postid(4))
+
+
+def search_posts_by_word(word):
+    # функция для поиска
+    word = word.lower()
+    posts = read_json('data/data.json')
+    comments = read_json('data/comments.json')
+
+    posts_search = [x for x in posts if word in x.get("content").lower()]
+    posts_with_comments = attach_comments_to_posts(posts_search, comments)
+    return posts_with_comments
+
+
+def search_by_name(username):
+    # Функция для получение всех постов конкретного человека
+    data = read_json('data/data.json')
+    posts_by_user = []
+
+    for post in data:
+        if post.get("poster_name") == username:
+            posts_by_user.append(post)
+    return posts_by_user
