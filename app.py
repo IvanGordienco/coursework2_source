@@ -6,7 +6,7 @@ from functions import read_json, load_data, get_post_by_id, get_comments_by_post
 POST_PATH = "data/data.json"
 
 posts, comments, bookmarks = load_data()
-app = Flask(__name__)
+app = Flask("__name__")
 
 
 @app.route('/')
@@ -45,6 +45,7 @@ def users_feed(username):
     posts = search_by_name(username)
 
     return render_template('user-feed.html', posts=posts)
+
 
 if __name__ == '__name__':
     app.run(debug=True)
