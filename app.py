@@ -46,5 +46,5 @@ def users_feed(username):
 
     return render_template('user-feed.html', posts=posts)
 
-
-app.run(debug=True)
+if __name__ == '__name__':
+    app.run(debug=True)
